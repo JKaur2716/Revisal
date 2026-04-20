@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Revisal – Project Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+<div class="app">
+ 
+
+ 
+  <!-- Sidebar -->
+<aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="Images/revisal-logo.png" alt="Revisal logo" />
+    </div>
+ 
+    <nav>
+      <a class="nav-link" href="#">Home</a>
+      <a class="nav-link active" href="#">Project</a>
+      <a class="nav-link" href="#">Calendar</a>
+      <a class="nav-link" href="#">
+        Communicate
+        <span class="badge">3</span>
+        <span class="chevron">&#9662;</span>
+      </a>
+      <a class="nav-link" href="#">Services</a>
+      <a class="nav-link" href="#">Notifications</a>
+      <a class="nav-link" href="#">Settings</a>
+    </nav>
+ 
+    <div class="sidebar-footer">
+      <a class="nav-link" href="#">Help</a>
+      <a class="nav-link" href="/logout" style="color: #ff4d4d; margin-top: 10px; display: block;">Logout</a>
+    </div>
+  </aside>
+ 
+  <!-- Main -->
+<div class="main">
+ 
+    <!-- Top bar -->
+<div class="topbar">
+<div class="greeting">
+  <h1>Hello, Loading...</h1>
+  <p>Your personal dashboard is ready.</p>
+</div>
+<div class="search">
+<span>&#128269;</span>
+<input type="text" placeholder="Search..." />
+</div>
+</div>
+ 
+<!-- Profile Summary -->
+<section class="profile-summary">
+  <div class="profile-card">
+    <h2>Your Profile</h2>
+    <p><strong>Username:</strong> <span id="profileUsername">Loading...</span></p>
+    <p><strong>Name:</strong> <span id="profileName">Loading...</span></p>
+    <p><strong>Email:</strong> <span id="profileEmail">Loading...</span></p>
+    <p><strong>Bio:</strong> <span id="profileBio">No bio added yet.</span></p>
+  </div>
+
+  <div class="profile-card">
+  <h2>Update Profile</h2>
+  <p>Update your account details below. Your changes will be saved to your profile.</p>
+
+  <form id="profileForm">
+    <div class="field">
+      <label for="fullName">Name</label>
+      <input type="text" id="fullName" name="name" placeholder="Enter your name" />
+    </div>
+
+    <div class="field">
+      <label for="emailField">Email</label>
+      <input type="email" id="emailField" name="email" placeholder="Enter your email" />
+    </div>
+
+    <div class="field">
+      <label for="bioField">Bio</label>
+      <textarea id="bioField" name="bio" placeholder="Write a short bio"></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit">Update Profile</button>
+  </form>
+
+  <p id="profileMessage" style="margin-top:12px;font-weight:600;"></p>
+</div>
+</section>
+
+    <!-- Stats -->
+<div class="stats">
+<div class="stat-card">
+<div class="label">All project</div>
+<div class="value">2</div>
+</div>
+<div class="stat-card">
+<div class="label">Initiation</div>
+<div class="value">10</div>
+</div>
+<div class="stat-card">
+<div class="label">Planning</div>
+<div class="value">4</div>
+</div>
+<div class="stat-card">
+<div class="label">Execution</div>
+<div class="value">2</div>
+</div>
+<div class="stat-card">
+<div class="label">Monitoring</div>
+<div class="value">10</div>
+</div>
+<div class="stat-card">
+<div class="label">Closure</div>
+<div class="value">4</div>
+</div>
+</div>
+ 
+    <!-- Buttons -->
+<div class="action-bar">
+<div class="buttons">
+<button class="btn">
+<span class="icon">+</span>
+          Add Project
+</button>
+<button class="btn">
+<span class="icon">+</span>
+          Add Task
+</button>
+</div>
+<button class="filter-btn" title="Filter">&#8801;</button>
+</div>
+ 
+    <!-- Project table -->
+<div class="table-wrap">
+<h2>Project</h2>
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th><input type="checkbox" class="cb" /></th>
+<th>Project</th>
+<th>Client</th>
+<th>Stage</th>
+<th>Progress</th>
+<th>Start Date</th>
+<th>End Date</th>
+</tr>
+</thead>
+<tbody id="rows"></tbody>
+</table>
+</div>
+</div>
+ 
+  </div>
+</div>
+ 
+ 
+<script> 
+ 
+  const projects = [
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+    { name: "Art Theater Projects", client: "Raegan Frenette", stage: "Initiation", progress: 12 },
+  ];
+ 
+  const tbody = document.getElementById("rows");
+  let csrfToken = "";
+async function getCsrf() {
+  try {
+    const res = await fetch('/get-csrf-token');
+    const data = await res.json();
+    csrfToken = data.csrfToken;
+  } catch(err) {
+    console.error("Failed to fetch CSRF token:", err);
+  }
+}
+getCsrf();
+ 
+ projects.forEach(p => {
+  const row = document.createElement("tr");
+
+  const cbTd = document.createElement("td");
+  const cb = document.createElement("input");
+  cb.type = "checkbox"; cb.className = "cb";
+  cbTd.appendChild(cb);
+
+  const nameTd = document.createElement("td");
+  nameTd.textContent = p.name;
+
+  const clientTd = document.createElement("td");
+  clientTd.textContent = p.client;
+
+  const stageTd = document.createElement("td");
+  const stageSpan = document.createElement("span");
+  stageSpan.className = "stage";
+  stageSpan.textContent = p.stage;
+  stageTd.appendChild(stageSpan);
+
+  const progressTd = document.createElement("td");
+  const bar = document.createElement("div");
+  bar.className = "progress-bar";
+  const fill = document.createElement("div");
+  fill.className = "progress-fill";
+  fill.style.width = p.progress + "%";
+  bar.appendChild(fill);
+  progressTd.appendChild(bar);
+
+  const startTd = document.createElement("td");
+  startTd.className = "date";
+  startTd.textContent = "MM/DD/YYYY";
+
+  const endTd = document.createElement("td");
+  endTd.className = "date";
+  endTd.textContent = "MM/DD/YYYY";
+
+  row.append(cbTd, nameTd, clientTd, stageTd, progressTd, startTd, endTd);
+  tbody.appendChild(row);
+});
+
+
+ async function loadUserProfile() {
+  try {
+    const response = await fetch('/profile');
+
+    if (!response.ok) {
+      window.location.href = '/login.html';
+      return;
+    }
+
+    const data = await response.json();
+
+    // Update greeting
+    const welcomeHeader = document.querySelector('.greeting h1');
+    if (welcomeHeader) {
+      welcomeHeader.innerText = `Hello, ${data.name || data.user}!`;
+    }
+
+    // Fill profile section
+    document.getElementById("profileUsername").innerText = data.user || "Not available";
+    document.getElementById("profileName").innerText = data.name || "Not available";
+    document.getElementById("profileEmail").innerText = data.email || "Not available";
+    document.getElementById("profileBio").innerText = data.bio || "No bio added yet.";
+
+    document.getElementById("fullName").value = data.name || "";
+    document.getElementById("emailField").value = data.email || "";
+    document.getElementById("bioField").value = data.bio || "";
+
+    // Admin banner
+    if (data.role === 'admin') {
+      const topbar = document.querySelector('.topbar');
+      const adminBanner = document.createElement('div');
+      adminBanner.style = "background:#6c3fc5;color:white;padding:8px 16px;border-radius:8px;margin-top:10px;";
+      adminBanner.innerHTML = `⚡ Admin Access — System Status: Healthy | Active Projects: 3 | Unread Feedback: 5`;
+      topbar.appendChild(adminBanner);
+    }
+
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    window.location.href = '/login.html';
+  }
+}
+const profileForm = document.getElementById("profileForm");
+const profileMessage = document.getElementById("profileMessage");
+
+async function updateProfile(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("fullName").value;
+  const email = document.getElementById("emailField").value;
+  const bio = document.getElementById("bioField").value;
+
+  if (name.length < 3 || name.length > 50) {
+    profileMessage.style.color = "crimson";
+    profileMessage.innerText = "Name must be between 3 and 50 characters.";
+    return;
+  }
+  if (!/^[A-Za-z\s]+$/.test(name)) {
+    profileMessage.style.color = "crimson";
+    profileMessage.innerText = "Name can only contain letters and spaces.";
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    profileMessage.style.color = "crimson";
+    profileMessage.innerText = "Please enter a valid email address.";
+    return;
+  }
+  
+  if (bio.length > 500) {
+    profileMessage.style.color = "crimson";
+    profileMessage.innerText = "Bio must not exceed 500 characters.";
+    return;
+  }
+
+  try {
+    const response = await fetch("/update-profile", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "CSRF-Token": csrfToken
+  },
+  credentials: "same-origin",
+  body: JSON.stringify({ name, email, bio })
+  });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      profileMessage.style.color = "crimson";
+      profileMessage.innerText = data.error || "Profile update failed.";
+      return;
+    }
+
+    profileMessage.style.color = "green";
+    profileMessage.innerText = data.message || "Profile updated successfully.";
+
+    await loadUserProfile();
+  } catch (error) {
+    profileMessage.style.color = "crimson";
+    profileMessage.innerText = "Something went wrong while updating the profile.";
+  }
+}
+
+profileForm.addEventListener("submit", updateProfile);
+ 
+  loadUserProfile();
+
+  window.addEventListener('pageshow', async (event) => {
+  const response = await fetch('/profile');
+  if (!response.ok) {
+    window.location.href = '/login.html';
+  }
+});
+
+</script>
+ 
+</body>
+</html>
