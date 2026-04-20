@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Revisal – Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="register.css"/>
+</head>
+<body>
+ 
+<div class="wrapper">
+ 
+  <!-- LEFT: Form -->
+  <div class="left">
+    <img src="Images/login-logo.png" alt="Revisal" class="panel-logo"/>
+    <button class="back-btn" id="backBtn" title="Back">&#8592;</button>
+ 
+    <!-- Step indicators -->
+    <div class="steps">
+      <div class="step active"   id="s1">1</div>
+      <div class="step-line"></div>
+      <div class="step upcoming" id="s2">2</div>
+      <div class="step-line"></div>
+      <div class="step upcoming" id="s3">3</div>
+    </div>
+ 
+    <h1 class="form-title" id="formTitle">Sign Up</h1>
+ 
+    <div id="banner" class="banner"></div>
+ 
+    <!-- STEP 1: Name + Password -->
+    <div class="step-content active" id="step1">
+      <div class="field">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" autocomplete="given-name"/>
+        <div class="field-error" id="firstNameErr">Please enter your first name.</div>
+      </div>
+      <div class="field">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" autocomplete="family-name"/>
+        <div class="field-error" id="lastNameErr">Please enter your last name.</div>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="new-password"/>
+        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+        <div class="strength-label" id="strengthLabel"></div>
+        <div class="field-error" id="passwordErr">Password must be 8+ chars with a number and special character.</div>
+      </div>
+      <div class="field">
+        <label for="verifyPassword">Verify Password</label>
+        <input type="password" id="verifyPassword" autocomplete="new-password"/>
+        <div class="field-error" id="verifyErr">Passwords do not match.</div>
+      </div>
+      <button class="btn-continue" id="btnStep1">Continue</button>
+      <p class="login-link">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+ 
+    <!-- STEP 2: Username -->
+    <div class="step-content" id="step2">
+      <div class="field">
+        <label for="username">Choose a Username</label>
+        <input type="text" id="username" autocomplete="username" maxlength="30"/>
+        <div class="field-error" id="usernameErr">Username must be 3–30 characters.</div>
+      </div>
+      <button class="btn-continue" id="btnStep2">Continue</button>
+    </div>
+ 
+    <!-- STEP 3: Review & Submit -->
+    <div class="step-content" id="step3">
+      <div id="reviewBox" class="review-box"></div>
+      <button class="btn-continue" id="submitBtn">Create Account</button>
+    </div>
+  </div>
+ 
+  <!-- RIGHT: Mascot -->
+  <div class="right">
+    <img src="Images/primary-logo.webp" alt="" class="right-logo-watermark"/>
+    <span class="bolt bolt-1">&#9889;</span>
+    <span class="bolt bolt-2">&#9889;</span>
+    <div class="mascot-wrap">
+      <img class="mascot-img" src="Images/Revi-full.png" alt="Revi mascot"/>
+    </div>
+  </div>
+ 
+</div>
+ 
+<script src="register.js"></script>
+</body>
+</html>
+ 
